@@ -13,16 +13,12 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-eureka:
-    client:
-        enabled: false
-    instance:
-        appname: jhip
-        instanceId: jhip:${spring.application.instance-id:${random.value}}
 
 spring:
     application:
         name: jhip
+    cache:
+        type: simple
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:h2:mem:jhip;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
@@ -84,12 +80,13 @@ jhipster:
             host: localhost
             port: 5000
             queue-size: 512
+    mail:
+        from: test@localhost
+        base-url: http://127.0.0.1:8080
     security:
-        authentication:
-            jwt:
-                secret: 7624295c6b1af6651831609c997fb5ed79cb47c4
-                # Token is valid 24 hours
-                token-validity-in-seconds: 86400
+        remember-me:
+            # security key (this key should be unique for your application, and kept secret)
+            key: d73e95053c8b5ea93dbe446a74833ee21142e2fd
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         logs: # Reports Dropwizard metrics in the logs

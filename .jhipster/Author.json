@@ -1,0 +1,18 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "autorname",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180829120239",
+    "dto": "no",
+    "searchEngine": false,
+    "service": "no",
+    "entityTableName": "author",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

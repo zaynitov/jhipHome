@@ -21,11 +21,9 @@ import net.logstash.logback.stacktrace.ShortenedThrowableConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@RefreshScope
 public class LoggingConfiguration {
 
     private static final String LOGSTASH_APPENDER_NAME = "LOGSTASH";
@@ -40,15 +38,12 @@ public class LoggingConfiguration {
 
     private final String serverPort;
 
-    private final String version;
-
     private final JHipsterProperties jHipsterProperties;
 
     public LoggingConfiguration(@Value("${spring.application.name}") String appName, @Value("${server.port}") String serverPort,
-         @Value("${info.project.version:}") String version, JHipsterProperties jHipsterProperties) {
+         JHipsterProperties jHipsterProperties) {
         this.appName = appName;
         this.serverPort = serverPort;
-        this.version = version;
         this.jHipsterProperties = jHipsterProperties;
         if (jHipsterProperties.getLogging().getLogstash().isEnabled()) {
             addLogstashAppender(context);
@@ -71,9 +66,7 @@ public class LoggingConfiguration {
         LogstashTcpSocketAppender logstashAppender = new LogstashTcpSocketAppender();
         logstashAppender.setName(LOGSTASH_APPENDER_NAME);
         logstashAppender.setContext(context);
-        String optionalFields = "";
-        String customFields = "{\"app_name\":\"" + appName + "\",\"app_port\":\"" + serverPort + "\"," +
-            optionalFields + "\"version\":\"" + version + "\"}";
+        String customFields = "{\"app_name\":\"" + appName + "\",\"app_port\":\"" + serverPort + "\"}";
 
         // More documentation is available at: https://github.com/logstash/logstash-logback-encoder
         LogstashEncoder logstashEncoder = new LogstashEncoder();

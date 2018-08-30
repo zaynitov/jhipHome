@@ -11,7 +11,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
@@ -21,7 +20,6 @@ import java.util.Collection;
 
 @SpringBootApplication
 @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
-@EnableDiscoveryClient
 public class JhipApp {
 
     private static final Logger log = LoggerFactory.getLogger(JhipApp.class);
@@ -83,10 +81,5 @@ public class JhipApp {
             hostAddress,
             env.getProperty("server.port"),
             env.getActiveProfiles());
-
-        String configServerStatus = env.getProperty("configserver.status");
-        log.info("\n----------------------------------------------------------\n\t" +
-                "Config Server: \t{}\n----------------------------------------------------------",
-            configServerStatus == null ? "Not found or not setup for this application" : configServerStatus);
     }
 }
