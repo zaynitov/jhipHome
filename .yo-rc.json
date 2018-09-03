@@ -14,21 +14,20 @@
     "enableHibernateCache": false,
     "websocket": false,
     "databaseType": "sql",
-    "devDatabaseType": "h2Memory",
+    "devDatabaseType": "postgresql",
     "prodDatabaseType": "postgresql",
     "searchEngine": false,
     "messageBroker": false,
     "serviceDiscoveryType": false,
     "buildTool": "maven",
     "enableSwaggerCodegen": false,
-    "rememberMeKey": "d73e95053c8b5ea93dbe446a74833ee21142e2fd",
+    "rememberMeKey": "29ded65bbeb4e5913889de67bebd7d57a03be47f",
     "clientFramework": "angularX",
     "useSass": false,
     "clientPackageManager": "yarn",
     "testFrameworks": [],
     "jhiPrefix": "jhi",
     "enableTranslation": false,
-    "herokuDeployType": "git",
-    "herokuAppName": "stark-ocean-22910"
+    "herokuAppName": "shielded-caverns-67191"
   }
 }

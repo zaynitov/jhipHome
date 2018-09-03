@@ -15,14 +15,14 @@
             <thead>
             <tr>
             <th><span>ID</span></th>
-            <th><span>Autorname</span></th>
+            <th><span>Name</span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let author of authors ;trackBy: trackId">
                 <td><a [routerLink]="['/author', author.id, 'view' ]">{{author.id}}</a></td>
-                <td>{{author.autorname}}</td>
+                <td>{{author.name}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

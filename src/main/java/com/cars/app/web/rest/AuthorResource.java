@@ -1,13 +1,18 @@
 package com.cars.app.web.rest;
 
+import com.cars.app.service.AuthorRequest;
+import com.cars.app.web.rest.util.PaginationUtil;
 import com.codahale.metrics.annotation.Timed;
 import com.cars.app.domain.Author;
-import com.cars.app.repository.AuthorRepository;
+import com.cars.app.service.AuthorService;
 import com.cars.app.web.rest.errors.BadRequestAlertException;
 import com.cars.app.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +33,10 @@ public class AuthorResource {
 
     private static final String ENTITY_NAME = "author";
 
-    private final AuthorRepository authorRepository;
+    private final AuthorService authorService;
 
-    public AuthorResource(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
+    public AuthorResource(AuthorService authorService) {
+        this.authorService = authorService;
     }
 
     /**
@@ -48,7 +53,7 @@ public class AuthorResource {
         if (author.getId() != null) {
             throw new BadRequestAlertException("A new author cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Author result = authorRepository.save(author);
+        Author result = authorService.save(author);
         return ResponseEntity.created(new URI("/api/authors/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -70,11 +75,22 @@ public class AuthorResource {
         if (author.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Author result = authorRepository.save(author);
+        Author result = authorService.save(author);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, author.getId().toString()))
             .body(result);
     }
+
+
+    @GetMapping("/authors/custom")
+    @Timed
+    public List<Author> addLetterToEndName (@RequestParam(name = "q", required = false) String query) {
+        log.debug("REST request to get all Authors");
+        AuthorRequest authorRequest = new AuthorRequest(query);
+        return authorService.addOneLetterToEnd(authorRequest);
+    }
+
+
 
     /**
      * GET  /authors : get all the authors.
@@ -83,10 +99,13 @@ public class AuthorResource {
      */
     @GetMapping("/authors")
     @Timed
-    public List<Author> getAllAuthors() {
+    public List<Author> getAllAuthors(@RequestParam(name = "q", required = false) String query) {
         log.debug("REST request to get all Authors");
-        return authorRepository.findAll();
+        AuthorRequest authorRequest = new AuthorRequest(query);
+        List<Author> page = authorService.findAll(authorRequest);
+        return page;
     }
+
 
     /**
      * GET  /authors/:id : get the "id" author.
@@ -98,7 +117,7 @@ public class AuthorResource {
     @Timed
     public ResponseEntity<Author> getAuthor(@PathVariable Long id) {
         log.debug("REST request to get Author : {}", id);
-        Optional<Author> author = authorRepository.findById(id);
+        Optional<Author> author = authorService.findOne(id);
         return ResponseUtil.wrapOrNotFound(author);
     }
 
@@ -112,8 +131,7 @@ public class AuthorResource {
     @Timed
     public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
         log.debug("REST request to delete Author : {}", id);
-
-        authorRepository.deleteById(id);
+        authorService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

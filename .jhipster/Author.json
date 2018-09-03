@@ -4,14 +4,14 @@
     "relationships": [],
     "fields": [
         {
-            "fieldName": "autorname",
+            "fieldName": "name",
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20180829120239",
+    "changelogDate": "20180830131734",
     "dto": "no",
     "searchEngine": false,
-    "service": "no",
+    "service": "serviceImpl",
     "entityTableName": "author",
     "jpaMetamodelFiltering": false,
     "pagination": "no"

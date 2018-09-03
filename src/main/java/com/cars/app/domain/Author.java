@@ -20,8 +20,8 @@ public class Author implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "autorname")
-    private String autorname;
+    @Column(name = "name")
+    private String name;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -32,17 +32,17 @@ public class Author implements Serializable {
         this.id = id;
     }
 
-    public String getAutorname() {
-        return autorname;
+    public String getName() {
+        return name;
     }
 
-    public Author autorname(String autorname) {
-        this.autorname = autorname;
+    public Author name(String name) {
+        this.name = name;
         return this;
     }
 
-    public void setAutorname(String autorname) {
-        this.autorname = autorname;
+    public void setName(String name) {
+        this.name = name;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -70,7 +70,7 @@ public class Author implements Serializable {
     public String toString() {
         return "Author{" +
             "id=" + getId() +
-            ", autorname='" + getAutorname() + "'" +
+            ", name='" + getName() + "'" +
             "}";
     }
 }

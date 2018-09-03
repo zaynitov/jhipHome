@@ -12,7 +12,7 @@
 
 eureka:
     instance:
-        hostname: stark-ocean-22910.herokuapp.com
+        hostname: shielded-caverns-67191.herokuapp.com
         non-secure-port: 80
         prefer-ip-address: false
     client:

@@ -32,15 +32,12 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:h2:mem:jhip;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-        username: jhip
-        password:
-    h2:
-        console:
-            enabled: false
+        url: jdbc:postgresql://ec2-107-22-221-60.compute-1.amazonaws.com:5432/d4vrlsc050o5f9?sslmode=require
+        username: ejbdczhusgycnh
+        password: c2d95caea59007bf18f7378671d17dcdf88909e90e7e3c8c68afb1a9338f89fd
     jpa:
-        database-platform: io.github.jhipster.domain.util.FixedH2Dialect
-        database: H2
+        database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
+        database: POSTGRESQL
         show-sql: true
         properties:
             hibernate.id.new_generator_mappings: true
@@ -103,7 +100,7 @@ jhipster:
     security:
         remember-me:
             # security key (this key should be unique for your application, and kept secret)
-            key: d73e95053c8b5ea93dbe446a74833ee21142e2fd
+            key: 29ded65bbeb4e5913889de67bebd7d57a03be47f
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: jhip@localhost
         base-url: http://127.0.0.1:8080

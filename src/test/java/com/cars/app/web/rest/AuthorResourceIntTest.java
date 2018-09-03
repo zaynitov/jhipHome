@@ -4,6 +4,7 @@ import com.cars.app.JhipApp;
 
 import com.cars.app.domain.Author;
 import com.cars.app.repository.AuthorRepository;
+import com.cars.app.service.AuthorService;
 import com.cars.app.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -39,12 +40,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = JhipApp.class)
 public class AuthorResourceIntTest {
 
-    private static final String DEFAULT_AUTORNAME = "AAAAAAAAAA";
-    private static final String UPDATED_AUTORNAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     @Autowired
     private AuthorRepository authorRepository;
 
+    
+
+    @Autowired
+    private AuthorService authorService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -65,7 +70,7 @@ public class AuthorResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AuthorResource authorResource = new AuthorResource(authorRepository);
+        final AuthorResource authorResource = new AuthorResource(authorService);
         this.restAuthorMockMvc = MockMvcBuilders.standaloneSetup(authorResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -81,7 +86,7 @@ public class AuthorResourceIntTest {
      */
     public static Author createEntity(EntityManager em) {
         Author author = new Author()
-            .autorname(DEFAULT_AUTORNAME);
+            .name(DEFAULT_NAME);
         return author;
     }
 
@@ -105,7 +110,7 @@ public class AuthorResourceIntTest {
         List<Author> authorList = authorRepository.findAll();
         assertThat(authorList).hasSize(databaseSizeBeforeCreate + 1);
         Author testAuthor = authorList.get(authorList.size() - 1);
-        assertThat(testAuthor.getAutorname()).isEqualTo(DEFAULT_AUTORNAME);
+        assertThat(testAuthor.getName()).isEqualTo(DEFAULT_NAME);
     }
 
     @Test
@@ -138,7 +143,7 @@ public class AuthorResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(author.getId().intValue())))
-            .andExpect(jsonPath("$.[*].autorname").value(hasItem(DEFAULT_AUTORNAME.toString())));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
     
 
@@ -153,7 +158,7 @@ public class AuthorResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(author.getId().intValue()))
-            .andExpect(jsonPath("$.autorname").value(DEFAULT_AUTORNAME.toString()));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
     @Test
     @Transactional
@@ -167,7 +172,7 @@ public class AuthorResourceIntTest {
     @Transactional
     public void updateAuthor() throws Exception {
         // Initialize the database
-        authorRepository.saveAndFlush(author);
+        authorService.save(author);
 
         int databaseSizeBeforeUpdate = authorRepository.findAll().size();
 
@@ -176,7 +181,7 @@ public class AuthorResourceIntTest {
         // Disconnect from session so that the updates on updatedAuthor are not directly saved in db
         em.detach(updatedAuthor);
         updatedAuthor
-            .autorname(UPDATED_AUTORNAME);
+            .name(UPDATED_NAME);
 
         restAuthorMockMvc.perform(put("/api/authors")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -187,7 +192,7 @@ public class AuthorResourceIntTest {
         List<Author> authorList = authorRepository.findAll();
         assertThat(authorList).hasSize(databaseSizeBeforeUpdate);
         Author testAuthor = authorList.get(authorList.size() - 1);
-        assertThat(testAuthor.getAutorname()).isEqualTo(UPDATED_AUTORNAME);
+        assertThat(testAuthor.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test
@@ -212,7 +217,7 @@ public class AuthorResourceIntTest {
     @Transactional
     public void deleteAuthor() throws Exception {
         // Initialize the database
-        authorRepository.saveAndFlush(author);
+        authorService.save(author);
 
         int databaseSizeBeforeDelete = authorRepository.findAll().size();
 

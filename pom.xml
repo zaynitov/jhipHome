@@ -500,13 +500,11 @@
                     <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
                     <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                     <driver>org.postgresql.Driver</driver>
-                    <url>
-
-                        jdbc:postgresql://ec2-54-247-101-191.eu-west-1.compute.amazonaws.com:5432/d3ccdv9l1tpc9r?sslmode=require                    </url>
-                    <defaultSchemaName>d3ccdv9l1tpc9r</defaultSchemaName>
-                    <username>wfzkvobeyfwexs</username>
-                    <password>958f29e5d885939d4dba56a0615321d595710934515528b85a6ecba9b94650dc</password>
-                    <referenceUrl>hibernate:spring:com.cars.app.domain?dialect=&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
+                    <url>jdbc:postgresql://ec2-107-22-221-60.compute-1.amazonaws.com:5432/d4vrlsc050o5f9?sslmode=require</url>
+                    <defaultSchemaName>d4vrlsc050o5f9</defaultSchemaName>
+                    <username>ejbdczhusgycnh</username>
+                    <password>c2d95caea59007bf18f7378671d17dcdf88909e90e7e3c8c68afb1a9338f89fd</password>
+                    <referenceUrl>hibernate:spring:com.cars.app.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                     <verbose>true</verbose>
                     <logging>debug</logging>
                 </configuration>
@@ -692,10 +690,6 @@
                     <artifactId>spring-boot-devtools</artifactId>
                     <optional>true</optional>
                 </dependency>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                </dependency>
             </dependencies>
             <build>
                 <plugins>
@@ -765,10 +759,6 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-devtools</artifactId>
                     <optional>true</optional>
-                </dependency>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
                 </dependency>
             </dependencies>
             <build>
